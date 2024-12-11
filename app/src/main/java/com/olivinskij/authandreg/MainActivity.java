@@ -38,15 +38,12 @@ public class MainActivity extends AppCompatActivity {
         notesRecyclerView = findViewById(R.id.notesRecyclerView);
 //        findViewById(R.id.addNoteButton).setOnClickListener(v -> showAddNoteDialog());
 
-        // Настройка RecyclerView
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         notesAdapter = new NotesAdapter(new ArrayList<>());
         notesRecyclerView.setAdapter(notesAdapter);
 
-        // Хранение заметок
         notesMap = new HashMap<>();
 
-        // Обработка выбора даты
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
