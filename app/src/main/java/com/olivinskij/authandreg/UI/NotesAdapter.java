@@ -8,31 +8,42 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.olivinskij.authandreg.R;
+
 import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
     private List<String> notes;
+    private final OnNoteDeleteListener deleteListener;
 
-    public NotesAdapter(List<String> notes) {
+    public NotesAdapter(List<String> notes, OnNoteDeleteListener deleteListener) {
         this.notes = notes;
+        this.deleteListener = deleteListener;
     }
 
-    public void updateNotes(List<String> newNotes) {
-        this.notes = newNotes;
+    public void updateNotes(List<String> notes) {
+        this.notes = notes;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
         return new NoteViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        holder.noteTextView.setText(notes.get(position));
+        String note = notes.get(position);
+        holder.noteTextView.setText(note);
+
+        holder.deleteTextView.setOnClickListener(v -> {
+            if (deleteListener != null) {
+                deleteListener.onNoteDelete(position);
+            }
+        });
     }
 
     @Override
@@ -40,13 +51,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         return notes.size();
     }
 
-    static class NoteViewHolder extends RecyclerView.ViewHolder {
+    public static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView noteTextView;
+        TextView deleteTextView;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            noteTextView = itemView.findViewById(android.R.id.text1);
+            noteTextView = itemView.findViewById(R.id.noteTextView);
+            deleteTextView = itemView.findViewById(R.id.deleteTextView);
         }
     }
-}
 
+    public interface OnNoteDeleteListener {
+        void onNoteDelete(int position);
+    }
+}
