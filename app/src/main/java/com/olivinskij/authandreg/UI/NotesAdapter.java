@@ -38,19 +38,17 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         String note = notes.get(position);
 
-        // Разделение заметки на части
         String[] parts = note.split(" - ", 3);
         if (parts.length == 3) {
-            holder.timeTextView.setText(parts[0]); // Время
-            holder.titleTextView.setText(parts[1]); // Название события
-            holder.descriptionTextView.setText(parts[2]); // Описание
+            holder.timeTextView.setText(parts[0]);
+            holder.titleTextView.setText(parts[1]);
+            holder.descriptionTextView.setText(parts[2]);
         } else {
             holder.timeTextView.setText("Неизвестно");
             holder.titleTextView.setText(note);
             holder.descriptionTextView.setText("");
         }
 
-        // Установка слушателя для удаления
         holder.deleteTextView.setOnClickListener(v -> deleteListener.onDelete(position));
 
     }
