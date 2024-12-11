@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public ImageView imageView6;
     public TextView textView6, textView7;
     private ImageView bgadddate;
+    public TextView noteTextView2;
     private EditText editTextEventName;
     private EditText editTextNote;
     private EditText editTextDate;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loadNotes();
+
+
+
 
         imageView6 = findViewById(R.id.imageView6);
         textView6 = findViewById(R.id.textView6);
@@ -118,20 +122,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        String[] timeParts = time.split(":");
-
-            int hour = Integer.parseInt(timeParts[0]);
-            int minute = Integer.parseInt(timeParts[1]);
-
-            if (hour > 24) {
-                Toast.makeText(this, "В сутках 24 часа.", Toast.LENGTH_SHORT).show();
-            }
-            if (minute > 60) {
-                Toast.makeText(this, "В часе 60 минут.", Toast.LENGTH_SHORT).show();
-            }
-
-
-        String fullNote = eventName + " - " + noteContent + " (" + time + ")";
+        String fullNote = time + " - " + eventName + " - " + noteContent;
         List<String> notes = notesMap.getOrDefault(selectedDate, new ArrayList<>());
         notes.add(fullNote);
         notesMap.put(selectedDate, notes);
@@ -143,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         hideADDelements();
         clearInputs();
     }
+
 
     private void clearInputs() {
         editTextEventName.setText("");
